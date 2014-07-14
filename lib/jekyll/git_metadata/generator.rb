@@ -54,10 +54,14 @@ module Jekyll
         cmd = "git log --numstat --format='%h'"
         cmd << " -- #{file}" if file
         result = %x{ #{cmd} }
-        results = result.scan(/(.*)\n\n(.*)\t(.*)\t(.*)\n/)
-        results.map { |a| a[1] = a[1].to_i; a[2] = a[2].to_i }
+        results = result.scan(/(.*)\n\n((?:.*\t.*\t.*\n)*)/)
         results.map do |line|
-          { 'sha' => line[0], 'additions' => line[1], 'subtractions' => line[2], 'file' => line[3] }
+          files = line[1].scan(/(.*)\t(.*)\t(.*)\n/)
+          line[1] = files.inject(0){|s,a| s+=a[0].to_i}
+          line[2] = files.inject(0){|s,a| s+=a[1].to_i}
+        end
+        results.map do |line|
+          { 'sha' => line[0], 'additions' => line[1], 'subtractions' => line[2] }
         end
       end
 
@@ -74,6 +78,7 @@ module Jekyll
           'author_email' => author_email,
           'author_date' => author_date,
           'commit_name' => commit_name,
+          'commit_email' => commit_email,
           'commit_date' => commit_date,
           'message' => message
         }

@@ -1,0 +1,12 @@
+# Site settings
+title: Jekyll Test Site for Jekyll::GitMetadata
+email: ivan.tse1@gmail.com
+description: "This is a test jekyll site with git contents to properly test the Jekyll::GitMetadata generator"
+baseurl: ""
+url: "http://tseivan.com"
+twitter_username: ivan_tse
+github_username:  ivantsepp
+
+# Build settings
+markdown: kramdown
+permalink: pretty
