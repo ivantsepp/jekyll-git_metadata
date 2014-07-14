@@ -63,11 +63,13 @@ module Jekyll
 
       def commit(sha)
         result = %x{ git show --format=fuller -q #{sha} }
-        author_name, author_email, author_date, commit_name, commit_email, commit_date, message = result
-          .scan(/.*Author:(.*)<(.*)>\nAuthorDate:(.*)\nCommit:(.*)<(.*)>\nCommitDate:(.*)\n\n(.*)/)
+        long_sha, author_name, author_email, author_date, commit_name, commit_email, commit_date, message = result
+          .scan(/commit (.*)\nAuthor:(.*)<(.*)>\nAuthorDate:(.*)\nCommit:(.*)<(.*)>\nCommitDate:(.*)\n\n(.*)/)
           .first
           .map(&:strip)
         {
+          'short_sha' => sha,
+          'long_sha' => long_sha,
           'author_name' => author_name,
           'author_email' => author_email,
           'author_date' => author_date,
