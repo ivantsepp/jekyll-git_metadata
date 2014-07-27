@@ -12,7 +12,7 @@ module Jekyll
         Dir.chdir(site.source) do
           site.config['git'] = site_data
           (site.pages + site.posts).each do |page|
-            page.data['git'] = page_data(page.relative_path)
+            page.data['git'] = page_data(page.path)
           end
         end
         
@@ -26,6 +26,8 @@ module Jekyll
       end
 
       def page_data(relative_path = nil)
+        return if relative_path && !tracked_files.include?(relative_path)
+
         authors = self.authors(relative_path)
         lines = self.lines(relative_path)
         {
@@ -82,6 +84,10 @@ module Jekyll
           'commit_date' => commit_date,
           'message' => message
         }
+      end
+
+      def tracked_files
+        @tracked_files ||= %x{ git ls-tree --full-tree -r --name-only HEAD }.split("\n")
       end
 
       def project_name

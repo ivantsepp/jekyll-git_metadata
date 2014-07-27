@@ -154,5 +154,26 @@ class Jekyll::GitMetadataTest < Minitest::Test
       end
     end
 
+    context 'untracked file' do
+      setup do
+        @site.reset
+        @untracked_file = File.join(jekyll_test_repo_path, 'untracked_file.html')
+        File.open(@untracked_file, 'w') do |f|
+          f.write("---\n---")
+        end
+        @site.read
+        @untracked_page = @site.pages.select{|p| p.name == 'untracked_file.html'}.first
+        @site.generate
+      end
+
+      teardown do
+        File.delete(@untracked_file)
+      end
+
+      should 'not have git data' do
+        assert_nil @untracked_page.data['git']
+      end
+    end
+
   end
 end
