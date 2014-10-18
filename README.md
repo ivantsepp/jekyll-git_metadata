@@ -11,14 +11,14 @@ Expose Git metadata to Jekyll. Just like how Github exposes [repository metadata
 Add to your `Gemfile`:
 
 ```
-gem 'jekyll-autolink_email'
+gem 'jekyll-git_metadata'
 ```
 
 Add to your `_config.yml`:
 
 ```yml
 gems:
-  - jekyll-autolink_email
+  - jekyll-git_metadata
 ```
 
 ## Usage
