@@ -95,7 +95,7 @@ module Jekyll
       end
 
       def files_count
-        %x{ git ls-tree -r HEAD | wc -l }.strip.to_i
+        %x{ git ls-tree -r HEAD }.lines.count
       end
 
       def git_installed?
