@@ -15,7 +15,7 @@ module Jekyll
             page.data['git'] = page_data(page.path)
           end
         end
-        
+
       end
 
       def site_data
