@@ -11,8 +11,13 @@ module Jekyll
 
         Dir.chdir(site.source) do
           site.config['git'] = site_data
-          (site.pages + site.posts).each do |page|
-            page.data['git'] = page_data(page.path)
+          (site.pages + site.posts.docs).each do |page|
+            if page.is_a?(Jekyll::Page)
+              myUrl = page.path
+            else
+              myUrl = page.relative_path
+            end
+            page.data['git'] = page_data(myUrl)
           end
         end
         
