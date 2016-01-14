@@ -11,7 +11,7 @@ module Jekyll
 
         Dir.chdir(site.source) do
           site.config['git'] = site_data
-          (site.pages + site.posts).each do |page|
+          (site.pages + site.posts.docs).each do |page|
             page.data['git'] = page_data(page.path)
           end
         end
@@ -42,7 +42,7 @@ module Jekyll
 
       def authors(file = nil)
         results = []
-        cmd = 'git shortlog -se'
+        cmd = 'git shortlog -se HEAD'
         cmd << " -- #{file}" if file
         result = %x{ #{cmd} }
         result.lines.each do |line|
