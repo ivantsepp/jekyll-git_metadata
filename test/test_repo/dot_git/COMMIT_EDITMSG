@@ -1,1 +1,14 @@
-Be more friendly
+This is a long commit message
+
+As you can tell this commit message will span several lines long because
+I need to test long comit messages too!
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Changes to be committed:
+#	modified:   _posts/2014-07-14-welcome-to-jekyll.markdown
+#	modified:   about.md
+#
+# Untracked files:
+#	dot_git/
+#

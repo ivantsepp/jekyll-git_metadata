@@ -33,14 +33,14 @@ class Jekyll::GitMetadataTest < Minitest::Test
       end
 
       should 'have correct totals count' do
-        assert_equal 5, @site_data['total_commits']
-        assert_equal 670, @site_data['total_additions']
+        assert_equal 6, @site_data['total_commits']
+        assert_equal 674, @site_data['total_additions']
         assert_equal 11, @site_data['total_subtractions']
       end
 
       should 'have correct authors data' do
         assert_equal 2, @site_data['authors'].count
-        assert @site_data['authors'].include?({"commits"=>4, "name"=>"Ivan Tse", "email"=>"ivan.tse1@gmail.com"})
+        assert @site_data['authors'].include?({"commits"=>5, "name"=>"Ivan Tse", "email"=>"ivan.tse1@gmail.com"})
         assert @site_data['authors'].include?({"commits"=>1, "name"=>"LeBron James", "email"=>"lbj@example.com"})
       end
 
@@ -57,15 +57,16 @@ class Jekyll::GitMetadataTest < Minitest::Test
       end
 
       should 'have correct last commit data' do
-        assert_equal '25d62f6', @site_data['last_commit']['short_sha']
-        assert_equal '25d62f6feeb7190483f81564f4a76c1ec33d5118', @site_data['last_commit']['long_sha']
-        assert_equal 'LeBron James', @site_data['last_commit']['author_name']
-        assert_equal 'lbj@example.com', @site_data['last_commit']['author_email']
-        assert_equal 'Mon Jul 14 02:12:31 2014 -0400', @site_data['last_commit']['author_date']
+        assert_equal '2410dac', @site_data['last_commit']['short_sha']
+        assert_equal '2410dac67d5dc5f47a6d790edfed4f65acd9477b', @site_data['last_commit']['long_sha']
+        assert_equal 'Ivan Tse', @site_data['last_commit']['author_name']
+        assert_equal 'ivan.tse1@gmail.com', @site_data['last_commit']['author_email']
+        assert_equal 'Sun Feb 12 01:00:51 2017 -0500', @site_data['last_commit']['author_date']
         assert_equal 'Ivan Tse', @site_data['last_commit']['commit_name']
         assert_equal 'ivan.tse1@gmail.com', @site_data['last_commit']['commit_email']
-        assert_equal 'Mon Jul 14 02:12:31 2014 -0400', @site_data['last_commit']['commit_date']
-        assert_equal 'Be more friendly', @site_data['last_commit']['message']
+        assert_equal 'Sun Feb 12 01:00:51 2017 -0500', @site_data['last_commit']['commit_date']
+        assert_equal "This is a long commit message\n\nAs you can tell this commit message will span several lines long because\nI need to test long comit messages too!", @site_data['last_commit']['message']
+        assert_equal ["_posts/2014-07-14-welcome-to-jekyll.markdown", "about.md"], @site_data['last_commit']['changed_files']
       end
     end
 
@@ -76,14 +77,14 @@ class Jekyll::GitMetadataTest < Minitest::Test
       end
 
       should 'have correct totals count' do
-        assert_equal 3, @page_data['total_commits']
-        assert_equal 14, @page_data['total_additions']
+        assert_equal 4, @page_data['total_commits']
+        assert_equal 16, @page_data['total_additions']
         assert_equal 5, @page_data['total_subtractions']
       end
 
       should 'have correct authors data' do
         assert_equal 2, @page_data['authors'].count
-        assert @page_data['authors'].include?({"commits"=>2, "name"=>"Ivan Tse", "email"=>"ivan.tse1@gmail.com"})
+        assert @page_data['authors'].include?({"commits"=>3, "name"=>"Ivan Tse", "email"=>"ivan.tse1@gmail.com"})
         assert @page_data['authors'].include?({"commits"=>1, "name"=>"LeBron James", "email"=>"lbj@example.com"})
       end
 
@@ -100,15 +101,15 @@ class Jekyll::GitMetadataTest < Minitest::Test
       end
 
       should 'have correct last commit data' do
-        assert_equal '25d62f6', @page_data['last_commit']['short_sha']
-        assert_equal '25d62f6feeb7190483f81564f4a76c1ec33d5118', @page_data['last_commit']['long_sha']
-        assert_equal 'LeBron James', @page_data['last_commit']['author_name']
-        assert_equal 'lbj@example.com', @page_data['last_commit']['author_email']
-        assert_equal 'Mon Jul 14 02:12:31 2014 -0400', @page_data['last_commit']['author_date']
+        assert_equal '2410dac', @page_data['last_commit']['short_sha']
+        assert_equal '2410dac67d5dc5f47a6d790edfed4f65acd9477b', @page_data['last_commit']['long_sha']
+        assert_equal 'Ivan Tse', @page_data['last_commit']['author_name']
+        assert_equal 'ivan.tse1@gmail.com', @page_data['last_commit']['author_email']
+        assert_equal 'Sun Feb 12 01:00:51 2017 -0500', @page_data['last_commit']['author_date']
         assert_equal 'Ivan Tse', @page_data['last_commit']['commit_name']
         assert_equal 'ivan.tse1@gmail.com', @page_data['last_commit']['commit_email']
-        assert_equal 'Mon Jul 14 02:12:31 2014 -0400', @page_data['last_commit']['commit_date']
-        assert_equal 'Be more friendly', @page_data['last_commit']['message']
+        assert_equal 'Sun Feb 12 01:00:51 2017 -0500', @page_data['last_commit']['commit_date']
+        assert_equal "This is a long commit message\n\nAs you can tell this commit message will span several lines long because\nI need to test long comit messages too!", @page_data['last_commit']['message']
       end
     end
 
@@ -119,14 +120,14 @@ class Jekyll::GitMetadataTest < Minitest::Test
       end
 
       should 'have correct totals count' do
-        assert_equal 2, @page_data['total_commits']
-        assert_equal 28, @page_data['total_additions']
+        assert_equal 3, @page_data['total_commits']
+        assert_equal 30, @page_data['total_additions']
         assert_equal 0, @page_data['total_subtractions']
       end
 
       should 'have correct authors data' do
         assert_equal 1, @page_data['authors'].count
-        assert @page_data['authors'].include?({"commits"=>2, "name"=>"Ivan Tse", "email"=>"ivan.tse1@gmail.com"})
+        assert @page_data['authors'].include?({"commits"=>3, "name"=>"Ivan Tse", "email"=>"ivan.tse1@gmail.com"})
       end
 
       should 'have correct first commit data' do
@@ -142,15 +143,15 @@ class Jekyll::GitMetadataTest < Minitest::Test
       end
 
       should 'have correct last commit data' do
-        assert_equal '8365a44', @page_data['last_commit']['short_sha']
-        assert_equal '8365a44c640d5c7cafc8788607a274dfd91b89bb', @page_data['last_commit']['long_sha']
+        assert_equal '2410dac', @page_data['last_commit']['short_sha']
+        assert_equal '2410dac67d5dc5f47a6d790edfed4f65acd9477b', @page_data['last_commit']['long_sha']
         assert_equal 'Ivan Tse', @page_data['last_commit']['author_name']
         assert_equal 'ivan.tse1@gmail.com', @page_data['last_commit']['author_email']
-        assert_equal 'Mon Jul 14 02:10:03 2014 -0400', @page_data['last_commit']['author_date']
+        assert_equal 'Sun Feb 12 01:00:51 2017 -0500', @page_data['last_commit']['author_date']
         assert_equal 'Ivan Tse', @page_data['last_commit']['commit_name']
         assert_equal 'ivan.tse1@gmail.com', @page_data['last_commit']['commit_email']
-        assert_equal 'Mon Jul 14 02:10:03 2014 -0400', @page_data['last_commit']['commit_date']
-        assert_equal 'Edit first post', @page_data['last_commit']['message']
+        assert_equal 'Sun Feb 12 01:00:51 2017 -0500', @page_data['last_commit']['commit_date']
+        assert_equal "This is a long commit message\n\nAs you can tell this commit message will span several lines long because\nI need to test long comit messages too!", @page_data['last_commit']['message']
       end
     end
 
