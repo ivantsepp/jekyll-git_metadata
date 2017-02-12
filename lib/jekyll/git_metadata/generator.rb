@@ -73,7 +73,7 @@ module Jekyll
       end
 
       def commit(sha)
-        result = %x{ git show --format=fuller -q #{sha} }
+        result = %x{ git show --format=fuller -s #{sha} }
         long_sha, author_name, author_email, author_date, commit_name, commit_email, commit_date, message = result
           .scan(/commit (.*)\nAuthor:(.*)<(.*)>\nAuthorDate:(.*)\nCommit:(.*)<(.*)>\nCommitDate:(.*)\n\n(.*)/)
           .first
