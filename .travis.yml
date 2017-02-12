@@ -1,4 +1,5 @@
 language: ruby
-before_script: sudo apt-get update && sudo apt-get install git
+sudo: required
+dist: trusty
 script: bundle exec rake test
 
