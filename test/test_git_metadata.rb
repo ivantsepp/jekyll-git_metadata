@@ -114,7 +114,7 @@ class Jekyll::GitMetadataTest < Minitest::Test
 
     context 'post data' do
       setup do
-        @welcome_post = @site.posts.select{|p| p.name == '2014-07-14-welcome-to-jekyll.markdown'}.first
+        @welcome_post = @site.posts.docs.select{|p| p.basename == '2014-07-14-welcome-to-jekyll.markdown'}.first
         @page_data = @welcome_post.data['git']
       end
 
