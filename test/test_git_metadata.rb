@@ -57,14 +57,14 @@ class Jekyll::GitMetadataTest < Minitest::Test
       end
 
       should 'have correct last commit data' do
-        assert_equal '2410dac', @site_data['last_commit']['short_sha']
-        assert_equal '2410dac67d5dc5f47a6d790edfed4f65acd9477b', @site_data['last_commit']['long_sha']
+        assert_equal '70343eb', @site_data['last_commit']['short_sha']
+        assert_equal '70343eb1287191b30371400048167253a883d6ca', @site_data['last_commit']['long_sha']
         assert_equal 'Ivan Tse', @site_data['last_commit']['author_name']
         assert_equal 'ivan.tse1@gmail.com', @site_data['last_commit']['author_email']
-        assert_equal 'Sun Feb 12 01:00:51 2017 -0500', @site_data['last_commit']['author_date']
+        assert_equal 'Sun Feb 12 02:21:26 2017 -0500', @site_data['last_commit']['author_date']
         assert_equal 'Ivan Tse', @site_data['last_commit']['commit_name']
         assert_equal 'ivan.tse1@gmail.com', @site_data['last_commit']['commit_email']
-        assert_equal 'Sun Feb 12 01:00:51 2017 -0500', @site_data['last_commit']['commit_date']
+        assert_equal 'Sun Feb 12 02:21:26 2017 -0500', @site_data['last_commit']['commit_date']
         assert_equal "This is a long commit message\n\nAs you can tell this commit message will span several lines long because\nI need to test long comit messages too!", @site_data['last_commit']['message']
         assert_equal ["_posts/2014-07-14-welcome-to-jekyll.markdown", "about.md"], @site_data['last_commit']['changed_files']
       end
@@ -101,15 +101,16 @@ class Jekyll::GitMetadataTest < Minitest::Test
       end
 
       should 'have correct last commit data' do
-        assert_equal '2410dac', @page_data['last_commit']['short_sha']
-        assert_equal '2410dac67d5dc5f47a6d790edfed4f65acd9477b', @page_data['last_commit']['long_sha']
+        assert_equal '70343eb', @page_data['last_commit']['short_sha']
+        assert_equal '70343eb1287191b30371400048167253a883d6ca', @page_data['last_commit']['long_sha']
         assert_equal 'Ivan Tse', @page_data['last_commit']['author_name']
         assert_equal 'ivan.tse1@gmail.com', @page_data['last_commit']['author_email']
-        assert_equal 'Sun Feb 12 01:00:51 2017 -0500', @page_data['last_commit']['author_date']
+        assert_equal 'Sun Feb 12 02:21:26 2017 -0500', @page_data['last_commit']['author_date']
         assert_equal 'Ivan Tse', @page_data['last_commit']['commit_name']
         assert_equal 'ivan.tse1@gmail.com', @page_data['last_commit']['commit_email']
-        assert_equal 'Sun Feb 12 01:00:51 2017 -0500', @page_data['last_commit']['commit_date']
+        assert_equal 'Sun Feb 12 02:21:26 2017 -0500', @page_data['last_commit']['commit_date']
         assert_equal "This is a long commit message\n\nAs you can tell this commit message will span several lines long because\nI need to test long comit messages too!", @page_data['last_commit']['message']
+        assert_equal ["_posts/2014-07-14-welcome-to-jekyll.markdown", "about.md"], @page_data['last_commit']['changed_files']
       end
     end
 
@@ -143,15 +144,16 @@ class Jekyll::GitMetadataTest < Minitest::Test
       end
 
       should 'have correct last commit data' do
-        assert_equal '2410dac', @page_data['last_commit']['short_sha']
-        assert_equal '2410dac67d5dc5f47a6d790edfed4f65acd9477b', @page_data['last_commit']['long_sha']
+        assert_equal '70343eb', @page_data['last_commit']['short_sha']
+        assert_equal '70343eb1287191b30371400048167253a883d6ca', @page_data['last_commit']['long_sha']
         assert_equal 'Ivan Tse', @page_data['last_commit']['author_name']
         assert_equal 'ivan.tse1@gmail.com', @page_data['last_commit']['author_email']
-        assert_equal 'Sun Feb 12 01:00:51 2017 -0500', @page_data['last_commit']['author_date']
+        assert_equal 'Sun Feb 12 02:21:26 2017 -0500', @page_data['last_commit']['author_date']
         assert_equal 'Ivan Tse', @page_data['last_commit']['commit_name']
         assert_equal 'ivan.tse1@gmail.com', @page_data['last_commit']['commit_email']
-        assert_equal 'Sun Feb 12 01:00:51 2017 -0500', @page_data['last_commit']['commit_date']
+        assert_equal 'Sun Feb 12 02:21:26 2017 -0500', @page_data['last_commit']['commit_date']
         assert_equal "This is a long commit message\n\nAs you can tell this commit message will span several lines long because\nI need to test long comit messages too!", @page_data['last_commit']['message']
+        assert_equal ["_posts/2014-07-14-welcome-to-jekyll.markdown", "about.md"], @page_data['last_commit']['changed_files']
       end
     end
 
