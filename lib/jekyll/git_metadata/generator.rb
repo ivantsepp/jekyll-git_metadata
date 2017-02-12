@@ -58,7 +58,7 @@ module Jekyll
       end
 
       def lines(file = nil)
-        cmd = "git log --numstat --format='%h'"
+        cmd = "git log --numstat --format=%h"
         cmd << " -- #{file}" if file
         result = %x{ #{cmd} }
         results = result.scan(/(.*)\n\n((?:.*\t.*\t.*\n)*)/)
