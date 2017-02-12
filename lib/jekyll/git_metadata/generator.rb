@@ -34,9 +34,11 @@ module Jekyll
         return if relative_path && !tracked_files.include?(relative_path)
 
         authors = self.authors(relative_path)
+        commits = self.commits(relative_path)
         lines = self.lines(relative_path)
         {
           'authors' => authors,
+          'commits' => commits,
           'total_commits' => authors.inject(0) { |sum, h| sum += h['commits'] },
           'total_additions' => lines.inject(0) { |sum, h| sum += h['additions'] },
           'total_subtractions' => lines.inject(0) { |sum, h| sum += h['subtractions'] },
@@ -53,6 +55,20 @@ module Jekyll
         result.lines.each do |line|
           commits, name, email = line.scan(/(.*)\t(.*)<(.*)>/).first.map(&:strip)
           results << { 'commits' => commits.to_i, 'name' => name, 'email' => email }
+        end
+        results
+      end
+
+      def commits(file = nil)
+        results = []
+        cmd = "git log --pretty=format:'%h - %aI - %cn - %ce - %s'"
+        cmd << " -- #{file}" if file
+        result = %x{ #{cmd} }
+
+        pat = /(.*) - (.*) - (.*) - (.*) - (.*)/
+        result.lines.each do |line|
+          hash, tstamp, name, mail, subj = line.scan(pat).first.map(&:strip)
+          results << [ hash, tstamp, name, mail, subj ]
         end
         results
       end
