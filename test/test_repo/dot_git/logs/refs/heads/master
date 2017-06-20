@@ -5,3 +5,4 @@ da077394cb4d5bf7ffac527dbfc652ec0592b423 9e00340e45d33e52bb16100f1b613a36f82f9c5
 8365a44c640d5c7cafc8788607a274dfd91b89bb 25d62f6feeb7190483f81564f4a76c1ec33d5118 Ivan Tse <ivan.tse1@gmail.com> 1405318351 -0400	commit: Be more friendly
 25d62f6feeb7190483f81564f4a76c1ec33d5118 2410dac67d5dc5f47a6d790edfed4f65acd9477b Ivan Tse <ivan.tse1@gmail.com> 1486879251 -0500	commit: This is a long commit message
 25d62f6feeb7190483f81564f4a76c1ec33d5118 70343eb1287191b30371400048167253a883d6ca Ivan Tse <ivan.tse1@gmail.com> 1486884086 -0500	commit: This is a long commit message
+70343eb1287191b30371400048167253a883d6ca b8ffd38affdd1cc22ee4cb830cbe5c398b4e3df1 Mark Morga <mmorga@rackspace.com> 1497976603 -0500	commit: Adding example collection doc for git metadata

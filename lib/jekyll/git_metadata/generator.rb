@@ -11,7 +11,7 @@ module Jekyll
 
         Dir.chdir(site.source) do
           site.config['git'] = site_data
-          (site.pages + site.posts.docs).each do |page|
+          (site.pages + site.collections.values.map(&:docs).flatten).each do |page|
             if page.is_a?(Jekyll::Page)
               path = page.path
             else

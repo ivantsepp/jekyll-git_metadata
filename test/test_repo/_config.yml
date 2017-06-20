@@ -10,3 +10,8 @@ github_username:  ivantsepp
 # Build settings
 markdown: kramdown
 permalink: pretty
+
+# Testing collections
+collections:
+  gizmos:
+    output: true
