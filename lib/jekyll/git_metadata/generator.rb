@@ -12,7 +12,7 @@ module Jekyll
         Dir.chdir(site.source) do
           data = load_git_metadata(site)
           site.config['git'] = data['site_data']
-          (site.pages + site.collections.values.map(&:docs).flatten).each do |page|
+          jekyll_items(site).each do |page|
             if page.is_a?(Jekyll::Page)
               path = page.path
             else
@@ -36,7 +36,7 @@ module Jekyll
         end
 
         pages_data = {}
-        (site.pages + site.posts.docs).each do |page|
+        jekyll_items(site).each do |page|
           if page.is_a?(Jekyll::Page)
             path = page.path
           else
@@ -132,6 +132,12 @@ module Jekyll
       def git_installed?
         null = RbConfig::CONFIG['host_os'] =~ /msdos|mswin|djgpp|mingw/ ? 'NUL' : '/dev/null'
         system "git --version >>#{null} 2>&1"
+      end
+
+      private
+
+      def jekyll_items(site)
+        site.pages + site.collections.values.map(&:docs).flatten
       end
     end
   end
