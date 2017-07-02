@@ -10,23 +10,51 @@ module Jekyll
         raise "Git is not installed" unless git_installed?
 
         Dir.chdir(site.source) do
-          site.config['git'] = site_data
+          data = load_git_metadata(site)
+          site.config['git'] = data['site_data']
           (site.pages + site.collections.values.map(&:docs).flatten).each do |page|
             if page.is_a?(Jekyll::Page)
               path = page.path
             else
               path = page.relative_path
             end
-            page.data['git'] = page_data(path)
+            page.data['git'] = data['pages_data'][path]
           end
         end
+      end
 
+      def load_git_metadata(site)
+
+        current_sha = %x{ git rev-parse HEAD }.strip
+
+        cache_dir = site.source + '/.git-metadata'
+        FileUtils.mkdir_p(cache_dir) unless File.directory?(cache_dir)
+        cache_file = cache_dir + "/#{current_sha}.json"
+
+        if File.exist?(cache_file)
+          return JSON.parse(IO.read(cache_file))
+        end
+
+        pages_data = {}
+        (site.pages + site.posts.docs).each do |page|
+          if page.is_a?(Jekyll::Page)
+            path = page.path
+          else
+            path = page.relative_path
+          end
+          pages_data[path] = page_data(path)
+        end
+        data = { 'site_data' => site_data, 'pages_data' => pages_data }
+
+        File.open(cache_file, 'w') { |f| f.write(data.to_json) }
+
+        data
       end
 
       def site_data
         {
           'project_name' => project_name,
-          'files_count' => files_count
+          'files_count' => files_count,
         }.merge!(page_data)
       end
 

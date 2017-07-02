@@ -1,5 +1,9 @@
 require 'helper'
 
+Minitest.after_run do
+  remove_cache_dir
+end
+
 class Jekyll::GitMetadataTest < Minitest::Test
   context 'GitMetadata' do
 
