@@ -13,7 +13,7 @@ Expose Git metadata to Jekyll. Just like how Github exposes [repository metadata
 Add to your `Gemfile`:
 
 ```
-gem 'jekyll-git_metadata'
+gem 'jekyll-git_metadata, group: :jekyll_plugins'
 ```
 
 Add to your `_config.yml`:
