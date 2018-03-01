@@ -241,15 +241,15 @@ class Jekyll::GitMetadataTest < Minitest::Test
       context 'site data' do
         should 'have correct last commit data' do
           @site_data = @site.config['git']
-          assert_equal '3650312', @site_data['last_commit']['short_sha']
-          assert_equal '3650312ba941c6ff184eeaf821ef83b641f23d6f', @site_data['last_commit']['long_sha']
+          assert_equal '10da2e7', @site_data['last_commit']['short_sha']
+          assert_equal '10da2e7bd6caeecdda80ccf7654009cec3567617', @site_data['last_commit']['long_sha']
           assert_equal 'Jamie Tanna', @site_data['last_commit']['author_name']
           assert_equal 'jamie@jamietanna.co.uk', @site_data['last_commit']['author_email']
-          assert_equal 'Sat Oct 6 17:12:41 2018 +0100', @site_data['last_commit']['author_date']
+          assert_equal 'Sat Oct 6 17:13:51 2018 +0100', @site_data['last_commit']['author_date']
           assert_equal 'Jamie Tanna', @site_data['last_commit']['commit_name']
           assert_equal 'jamie@jamietanna.co.uk', @site_data['last_commit']['commit_email']
-          assert_equal 'Sat Oct 6 17:13:40 2018 +0100', @site_data['last_commit']['commit_date']
-          assert_equal 'Introduce change on separate branch', @site_data['last_commit']['message']
+          assert_equal 'Sat Oct 6 17:13:51 2018 +0100', @site_data['last_commit']['commit_date']
+          assert_equal "Merge branch 'feature/readme-update'\n\nMerge commit introduced purposefully!", @site_data['last_commit']['message']
         end
       end
     end

@@ -1,3 +1,4 @@
+require 'git'
 require 'rbconfig'
 
 module Jekyll
@@ -10,6 +11,7 @@ module Jekyll
         raise "Git is not installed" unless git_installed?
 
         Dir.chdir(site.source) do
+          @g = Git.open(site.source)
           data = load_git_metadata(site)
           site.config['git'] = data['site_data']
           jekyll_items(site).each do |page|
@@ -25,7 +27,7 @@ module Jekyll
 
       def load_git_metadata(site)
 
-        current_sha = %x{ git rev-parse HEAD }.strip
+        current_sha = @g.object('HEAD').sha
 
         cache_dir = site.source + '/.git-metadata'
         FileUtils.mkdir_p(cache_dir) unless File.directory?(cache_dir)
@@ -63,26 +65,39 @@ module Jekyll
 
         authors = self.authors(relative_path)
         lines = self.lines(relative_path)
+
+        log = if relative_path
+                @g.gblob(relative_path).log
+              else
+                @g.log
+              end
+
         {
           'authors' => authors,
           'total_commits' => authors.inject(0) { |sum, h| sum += h['commits'] },
           'total_additions' => lines.inject(0) { |sum, h| sum += h['additions'] },
           'total_subtractions' => lines.inject(0) { |sum, h| sum += h['subtractions'] },
-          'first_commit' => commit(lines.last['sha']),
-          'last_commit' => commit(lines.first['sha'])
+          'first_commit' => commit(log[-1]),
+          'last_commit' => commit(log[0])
         }
       end
 
       def authors(file = nil)
-        results = []
-        cmd = 'git shortlog -se HEAD'
-        cmd << " -- #{file}" if file
-        result = %x{ #{cmd} }
-        result.lines.each do |line|
-          commits, name, email = line.scan(/(.*)\t(.*)<(.*)>/).first.map(&:strip)
-          results << { 'commits' => commits.to_i, 'name' => name, 'email' => email }
+        log = @g.log
+        log = @g.gblob(file).log if file
+
+        authors = {}
+        log.each do |l|
+          author = l.author
+          authors[author.name] ||= {
+            'commits' => 0,
+            'name' => author.name,
+            'email' => author.email
+          }
+          authors[author.name]['commits'] += 1
         end
-        results
+
+        authors.values
       end
 
       def lines(file = nil)
@@ -102,17 +117,20 @@ module Jekyll
 
       def commit(sha)
         result = %x{ git show --format=fuller --name-only #{sha} }
-        long_sha, author_name, author_email, author_date, commit_name, commit_email, commit_date, message, changed_files = result.scan(/commit (.*)\nAuthor:(.*)<(.*)>\nAuthorDate:(.*)\nCommit:(.*)<(.*)>\nCommitDate:(.*)\n\n((?:\s\s\s\s[^\r\n]*\n)*)\n(.*)/m).first.map(&:strip)
+        _, _, _, author_date, _, _, commit_date, _, changed_files = result.scan(/commit (.*)\nAuthor:(.*)<(.*)>\nAuthorDate:(.*)\nCommit:(.*)<(.*)>\nCommitDate:(.*)\n\n((?:\s\s\s\s[^\r\n]*\n)*)\n(.*)/m).first.map(&:strip)
+
+        c = @g.gcommit(sha)
+
         {
           'short_sha' => sha,
-          'long_sha' => long_sha,
-          'author_name' => author_name,
-          'author_email' => author_email,
+          'long_sha' => c.sha,
+          'author_name' => c.author.name,
+          'author_email' => c.author.email,
           'author_date' => author_date,
-          'commit_name' => commit_name,
-          'commit_email' => commit_email,
+          'commit_name' => c.committer.name,
+          'commit_email' => c.committer.email,
           'commit_date' => commit_date,
-          'message' => message.gsub(/    /, ''),
+          'message' => c.message.gsub(/    /, ''),
           'changed_files' => changed_files.split("\n")
         }
       end
@@ -122,11 +140,11 @@ module Jekyll
       end
 
       def project_name
-        File.basename(%x{ git rev-parse --show-toplevel }.strip)
+        File.basename(@g.dir.to_s.strip)
       end
 
       def files_count
-        %x{ git ls-tree -r HEAD }.lines.count
+        tracked_files.count
       end
 
       def git_installed?
