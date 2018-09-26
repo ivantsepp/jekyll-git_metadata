@@ -117,19 +117,21 @@ module Jekyll
 
       def commit(sha)
         result = %x{ git show --format=fuller --name-only #{sha} }
-        _, _, _, author_date, _, _, commit_date, _, changed_files = result.scan(/commit (.*)\nAuthor:(.*)<(.*)>\nAuthorDate:(.*)\nCommit:(.*)<(.*)>\nCommitDate:(.*)\n\n((?:\s\s\s\s[^\r\n]*\n)*)\n(.*)/m).first.map(&:strip)
+        _, _, _, _, _, _, _, _, changed_files = result.scan(/commit (.*)\nAuthor:(.*)<(.*)>\nAuthorDate:(.*)\nCommit:(.*)<(.*)>\nCommitDate:(.*)\n\n((?:\s\s\s\s[^\r\n]*\n)*)\n(.*)/m).first.map(&:strip)
 
         c = @g.gcommit(sha)
+
+        date_format = '%a %b %e %T %Y %z'
 
         {
           'short_sha' => sha,
           'long_sha' => c.sha,
           'author_name' => c.author.name,
           'author_email' => c.author.email,
-          'author_date' => author_date,
+          'author_date' => c.author_date.strftime(date_format),
           'commit_name' => c.committer.name,
           'commit_email' => c.committer.email,
-          'commit_date' => commit_date,
+          'commit_date' => c.committer_date.strftime(date_format),
           'message' => c.message.gsub(/    /, ''),
           'changed_files' => changed_files.split("\n")
         }
