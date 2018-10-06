@@ -8,7 +8,7 @@ class Jekyll::GitMetadataTest < Minitest::Test
   context 'GitMetadata' do
 
     setup do
-      create_temp_git_dir
+      create_temp_git_dir('dot_git')
       Jekyll.instance_variable_set(:@logger, Jekyll::LogAdapter.new(Jekyll::Stevenson.new, :error))
 
       config = Jekyll.configuration(
@@ -221,6 +221,36 @@ class Jekyll::GitMetadataTest < Minitest::Test
         assert_equal 'mmorga@rackspace.com', @page_data['last_commit']['commit_email']
         assert_equal 'Tue Jun 20 11:36:43 2017 -0500', @page_data['last_commit']['commit_date']
         assert_equal 'Adding example collection doc for git metadata', @page_data['last_commit']['message']
+      end
+    end
+
+    context 'Merge Commits' do
+      setup do
+        create_temp_git_dir('merge_commit_dot_git')
+        # TODO: remove dupe
+        Jekyll.instance_variable_set(:@logger, Jekyll::LogAdapter.new(Jekyll::Stevenson.new, :error))
+
+        config = Jekyll.configuration(
+          :source => jekyll_test_repo_path,
+          :destination => File.join(jekyll_test_repo_path, '_site'))
+        @site = Jekyll::Site.new(config)
+        @site.read
+        @site.generate
+      end
+
+      context 'site data' do
+        should 'have correct last commit data' do
+          @site_data = @site.config['git']
+          assert_equal '3650312', @site_data['last_commit']['short_sha']
+          assert_equal '3650312ba941c6ff184eeaf821ef83b641f23d6f', @site_data['last_commit']['long_sha']
+          assert_equal 'Jamie Tanna', @site_data['last_commit']['author_name']
+          assert_equal 'jamie@jamietanna.co.uk', @site_data['last_commit']['author_email']
+          assert_equal 'Sat Oct 6 17:12:41 2018 +0100', @site_data['last_commit']['author_date']
+          assert_equal 'Jamie Tanna', @site_data['last_commit']['commit_name']
+          assert_equal 'jamie@jamietanna.co.uk', @site_data['last_commit']['commit_email']
+          assert_equal 'Sat Oct 6 17:13:40 2018 +0100', @site_data['last_commit']['commit_date']
+          assert_equal 'Introduce change on separate branch', @site_data['last_commit']['message']
+        end
       end
     end
   end

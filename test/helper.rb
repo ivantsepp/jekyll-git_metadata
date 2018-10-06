@@ -14,16 +14,17 @@ def remove_cache_dir
 end
 
 class Minitest::Test
-  def dot_git_path
-    File.join(jekyll_test_repo_path, 'dot_git')
+  def dot_git_path(dirname)
+    File.join(jekyll_test_repo_path, dirname)
   end
 
   def real_dot_git_path
     File.join(jekyll_test_repo_path, '.git')
   end
 
-  def create_temp_git_dir
-    FileUtils.cp_r(dot_git_path, real_dot_git_path)
+  def create_temp_git_dir(dirname)
+    remove_temp_git_dir
+    FileUtils.cp_r(dot_git_path(dirname), real_dot_git_path)
   end
 
   def remove_temp_git_dir
