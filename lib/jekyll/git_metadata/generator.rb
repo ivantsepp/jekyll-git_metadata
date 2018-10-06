@@ -124,7 +124,7 @@ module Jekyll
         date_format = '%a %b %e %T %Y %z'
 
         {
-          'short_sha' => sha,
+          'short_sha' => c.sha[0..6],
           'long_sha' => c.sha,
           'author_name' => c.author.name,
           'author_email' => c.author.email,
