@@ -8,7 +8,7 @@ class Jekyll::GitMetadataTest < Minitest::Test
   context 'GitMetadata' do
 
     setup do
-      create_temp_git_dir
+      create_temp_git_dir('dot_git')
       Jekyll.instance_variable_set(:@logger, Jekyll::LogAdapter.new(Jekyll::Stevenson.new, :error))
 
       config = Jekyll.configuration(
@@ -221,6 +221,36 @@ class Jekyll::GitMetadataTest < Minitest::Test
         assert_equal 'mmorga@rackspace.com', @page_data['last_commit']['commit_email']
         assert_equal 'Tue Jun 20 11:36:43 2017 -0500', @page_data['last_commit']['commit_date']
         assert_equal 'Adding example collection doc for git metadata', @page_data['last_commit']['message']
+      end
+    end
+
+    context 'Merge Commits' do
+      setup do
+        create_temp_git_dir('merge_commit_dot_git')
+        # TODO: remove dupe
+        Jekyll.instance_variable_set(:@logger, Jekyll::LogAdapter.new(Jekyll::Stevenson.new, :error))
+
+        config = Jekyll.configuration(
+          :source => jekyll_test_repo_path,
+          :destination => File.join(jekyll_test_repo_path, '_site'))
+        @site = Jekyll::Site.new(config)
+        @site.read
+        @site.generate
+      end
+
+      context 'site data' do
+        should 'have correct last commit data' do
+          @site_data = @site.config['git']
+          assert_equal '10da2e7', @site_data['last_commit']['short_sha']
+          assert_equal '10da2e7bd6caeecdda80ccf7654009cec3567617', @site_data['last_commit']['long_sha']
+          assert_equal 'Jamie Tanna', @site_data['last_commit']['author_name']
+          assert_equal 'jamie@jamietanna.co.uk', @site_data['last_commit']['author_email']
+          assert_equal 'Sat Oct 6 17:13:51 2018 +0100', @site_data['last_commit']['author_date']
+          assert_equal 'Jamie Tanna', @site_data['last_commit']['commit_name']
+          assert_equal 'jamie@jamietanna.co.uk', @site_data['last_commit']['commit_email']
+          assert_equal 'Sat Oct 6 17:13:51 2018 +0100', @site_data['last_commit']['commit_date']
+          assert_equal "Merge branch 'feature/readme-update'\n\nMerge commit introduced purposefully!", @site_data['last_commit']['message']
+        end
       end
     end
   end
